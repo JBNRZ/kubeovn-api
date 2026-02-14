@@ -32,70 +32,70 @@ import (
 	cache "k8s.io/client-go/tools/cache"
 )
 
-// SwitchLBRuleInformer provides access to a shared informer and lister for
-// SwitchLBRules.
-type SwitchLBRuleInformer interface {
+// DNSNameResolverInformer provides access to a shared informer and lister for
+// DNSNameResolvers.
+type DNSNameResolverInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() kubeovnv1.SwitchLBRuleLister
+	Lister() kubeovnv1.DNSNameResolverLister
 }
 
-type switchLBRuleInformer struct {
+type dNSNameResolverInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 }
 
-// NewSwitchLBRuleInformer constructs a new informer for SwitchLBRule type.
+// NewDNSNameResolverInformer constructs a new informer for DNSNameResolver type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewSwitchLBRuleInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredSwitchLBRuleInformer(client, resyncPeriod, indexers, nil)
+func NewDNSNameResolverInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredDNSNameResolverInformer(client, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredSwitchLBRuleInformer constructs a new informer for SwitchLBRule type.
+// NewFilteredDNSNameResolverInformer constructs a new informer for DNSNameResolver type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredSwitchLBRuleInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredDNSNameResolverInformer(client versioned.Interface, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubeovnV1().SwitchLBRules().List(context.Background(), options)
+				return client.KubeovnV1().DNSNameResolvers().List(context.Background(), options)
 			},
 			WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubeovnV1().SwitchLBRules().Watch(context.Background(), options)
+				return client.KubeovnV1().DNSNameResolvers().Watch(context.Background(), options)
 			},
 			ListWithContextFunc: func(ctx context.Context, options metav1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubeovnV1().SwitchLBRules().List(ctx, options)
+				return client.KubeovnV1().DNSNameResolvers().List(ctx, options)
 			},
 			WatchFuncWithContext: func(ctx context.Context, options metav1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.KubeovnV1().SwitchLBRules().Watch(ctx, options)
+				return client.KubeovnV1().DNSNameResolvers().Watch(ctx, options)
 			},
 		},
-		&apiskubeovnv1.SwitchLBRule{},
+		&apiskubeovnv1.DNSNameResolver{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *switchLBRuleInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredSwitchLBRuleInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *dNSNameResolverInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredDNSNameResolverInformer(client, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *switchLBRuleInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&apiskubeovnv1.SwitchLBRule{}, f.defaultInformer)
+func (f *dNSNameResolverInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&apiskubeovnv1.DNSNameResolver{}, f.defaultInformer)
 }
 
-func (f *switchLBRuleInformer) Lister() kubeovnv1.SwitchLBRuleLister {
-	return kubeovnv1.NewSwitchLBRuleLister(f.Informer().GetIndexer())
+func (f *dNSNameResolverInformer) Lister() kubeovnv1.DNSNameResolverLister {
+	return kubeovnv1.NewDNSNameResolverLister(f.Informer().GetIndexer())
 }
