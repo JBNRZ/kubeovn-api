@@ -1,6 +1,6 @@
 module github.com/JBNRZ/kubeovn-api
 
-go 1.25.0
+go 1.25.7
 
 require (
 	github.com/brianvoe/gofakeit/v7 v7.14.0
